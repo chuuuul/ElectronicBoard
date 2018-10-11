@@ -4,6 +4,12 @@
 #include <QWidget>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QUndoStack>
+#include <QUndoView>
+#include <QUndoGroup>
+#include <QGraphicsScene>
+#include <QGraphicsPolygonItem>
+#include <QStack>
 
 class CanvasWidget : public QWidget
 {
@@ -11,6 +17,7 @@ class CanvasWidget : public QWidget
 public:
     explicit CanvasWidget(QWidget *parent = nullptr);
     ~CanvasWidget();
+    static bool isSave;
 
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
@@ -21,17 +28,26 @@ public:
     void setColor(QColor selectedColor);
     void setPenSize(int selectedSize);
     void clearAll();
+    void setImage(QImage &qImage);
 
+
+    QColor getColor();
     QImage getImage();
+    QImage canvasImage;
+
+    QStack <QImage> undoStack;
+    QStack <QImage> redoStack;
+
 
 private:
     //Canvas
-    QImage canvasImage;
+
     QPoint point;
     QColor penColor;
     int penSize;
     bool drawingActive;
     bool initFlag=false;
+
 
 };
 

@@ -56,9 +56,9 @@
    <widget class="CanvasWidget" name="canvas" native="true">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>0</y>
-      <width>1511</width>
+      <width>1531</width>
       <height>1070</height>
      </rect>
     </property>
@@ -84,7 +84,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color : black;</string>
+     <string notr="true">background-color : white;</string>
     </property>
    </widget>
    <widget class="QWidget" name="formLayoutWidget">
@@ -92,7 +92,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>160</width>
+      <width>161</width>
       <height>95</height>
      </rect>
     </property>
@@ -128,6 +128,12 @@
      </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="clearButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -147,7 +153,7 @@
       <x>10</x>
       <y>151</y>
       <width>158</width>
-      <height>575</height>
+      <height>581</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -233,56 +239,23 @@
        </attribute>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QPushButton" name="pushButton_9">
+     <item row="2" column="0">
+      <widget class="QPushButton" name="color_black">
        <property name="minimumSize">
         <size>
          <width>75</width>
          <height>75</height>
         </size>
        </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QPushButton" name="pushButton_10">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
+       <property name="styleSheet">
+        <string notr="true">background-color: black;</string>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string/>
        </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QPushButton" name="pushButton_11">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QPushButton" name="pushButton_12">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
+       <attribute name="buttonGroup">
+        <string notr="true">colorSelectGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="2" column="1">
@@ -304,27 +277,8 @@
        </attribute>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="color_black">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: black;</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">colorSelectGroup</string>
-       </attribute>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QPushButton" name="pushButton_8">
+     <item row="7" column="1">
+      <widget class="QPushButton" name="makePdfButton">
        <property name="minimumSize">
         <size>
          <width>75</width>
@@ -332,12 +286,13 @@
         </size>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>수업 종료 
+Make PDF</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="pushButton_7">
+     <item row="8" column="0">
+      <widget class="QPushButton" name="undoButton">
        <property name="minimumSize">
         <size>
          <width>75</width>
@@ -345,7 +300,53 @@
         </size>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>undo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QPushButton" name="redoButton">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>redo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QPushButton" name="saveButton">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>현재 이미지
+저장</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QPushButton" name="customColor">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Custom
+Color</string>
        </property>
       </widget>
      </item>
@@ -361,7 +362,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color : white;</string>
+     <string notr="true">background-color : gray;</string>
     </property>
     <property name="title">
      <string>Pen</string>
@@ -397,7 +398,7 @@
       </size>
      </property>
      <property name="minimum">
-      <number>1</number>
+      <number>5</number>
      </property>
      <property name="maximum">
       <number>40</number>
@@ -409,10 +410,10 @@
       <number>5</number>
      </property>
      <property name="value">
-      <number>1</number>
+      <number>5</number>
      </property>
      <property name="sliderPosition">
-      <number>1</number>
+      <number>5</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

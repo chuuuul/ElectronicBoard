@@ -3,11 +3,12 @@
 
 #include <QMainWindow>
 #include <QAbstractButton>
-#include <QUndoGroup>
-#include <QUndoStack>
-
-
-
+#include <QFileDialog>
+#include <QPdfWriter>
+#include <QColorDialog>
+#include <QDateTime>
+#include <QList>
+#include <QPixmap>
 #include "canvaswidget.h"
 
 namespace Ui {
@@ -22,17 +23,34 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void colorSelectGroup_clicked(QAbstractButton* button);     // color
     void on_penSizeSlide_sliderMoved(int position);             // slider
     void on_penSizeSlide_sliderReleased();
     void on_penSizeSlide_valueChanged(int value);
     void on_clearButton_clicked();                              // clear
+    void on_saveButton_clicked();
+    void on_makePdfButton_clicked();
 
-    QUndoStack *undoStack;
+    void saveFile();
+    void saveImage(QImage saveImage, const QString &fileName);
+    void on_customColor_clicked();
+
+    void makePDF();
+
+
+    void on_undoButton_clicked();
+
+    void on_redoButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    void penColor();
+
+
+    QList<QImage> qImageList ;
 };
 
 #endif // MAINWINDOW_H
