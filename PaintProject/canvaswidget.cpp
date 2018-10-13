@@ -1,6 +1,7 @@
 #include "canvaswidget.h"
 
 bool CanvasWidget::isSave = true;
+bool CanvasWidget::isStart = false;
 
 CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent)
 {
@@ -20,6 +21,7 @@ CanvasWidget::~CanvasWidget(){}
 
 void CanvasWidget::setColor(QColor selectedColor) {
     penColor = selectedColor;
+
 }
 
 QColor CanvasWidget::getColor() {

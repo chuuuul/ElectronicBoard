@@ -119,66 +119,6 @@ Start Lecture</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="formLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>161</width>
-      <height>124</height>
-     </rect>
-    </property>
-    <layout class="QFormLayout" name="formLayout_2">
-     <item row="0" column="1">
-      <widget class="QGroupBox" name="Select">
-       <property name="title">
-        <string>GroupBox</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="colorShow">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color : black;</string>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="clearButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Clear</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
@@ -204,7 +144,7 @@ Start Lecture</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: red;</string>
+        <string notr="true">background-color: red;  border: 1px solid;</string>
        </property>
        <property name="text">
         <string/>
@@ -223,7 +163,7 @@ Start Lecture</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: blue;</string>
+        <string notr="true">background-color: blue;  border: 1px solid;</string>
        </property>
        <property name="text">
         <string/>
@@ -242,7 +182,7 @@ Start Lecture</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: green;</string>
+        <string notr="true">background-color: green; border: 1px solid;</string>
        </property>
        <property name="text">
         <string/>
@@ -261,7 +201,7 @@ Start Lecture</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color : yellow;</string>
+        <string notr="true">background-color : yellow; border: 1px solid;</string>
        </property>
        <property name="text">
         <string/>
@@ -280,7 +220,7 @@ Start Lecture</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: black;</string>
+        <string notr="true">background-color: black; border: 1px solid;</string>
        </property>
        <property name="text">
         <string/>
@@ -299,7 +239,7 @@ Start Lecture</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color : white;</string>
+        <string notr="true">background-color : white; border: 1px solid;</string>
        </property>
        <property name="text">
         <string/>
@@ -322,6 +262,9 @@ Start Lecture</string>
          <pointsize>9</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true"> border: 1px solid;</string>
+       </property>
        <property name="text">
         <string>Custom
 Color</string>
@@ -335,6 +278,9 @@ Color</string>
          <width>75</width>
          <height>75</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>현재 이미지
@@ -364,6 +310,9 @@ Make PDF</string>
          <height>75</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>undo</string>
        </property>
@@ -376,6 +325,9 @@ Make PDF</string>
          <width>75</width>
          <height>75</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>redo</string>
@@ -394,7 +346,7 @@ Make PDF</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">;</string>
+     <string notr="true"/>
     </property>
     <property name="title">
      <string>Pen</string>
@@ -428,6 +380,9 @@ Make PDF</string>
        <width>16777215</width>
        <height>100</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="minimum">
       <number>5</number>
@@ -472,6 +427,71 @@ Make PDF</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>160</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="clearButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Clear</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="colorShow">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color : #ffffff;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainW
     ui->setupUi(this);
     ui->penSizeLabel->setText(QString::number(initpenSize));
     ui->penSizeSlide->setValue(initpenSize);
+    ui->colorShow->setStyleSheet("background-color : black; border: 1px solid;");
     ui->colorSelectGroup->connect(ui->colorSelectGroup, SIGNAL(buttonClicked(QAbstractButton*)) , this , SLOT( colorSelectGroup_clicked(QAbstractButton*)));
 
     ui->StartButton->setVisible(true);
@@ -21,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainW
 void MainWindow::makePDF()
 {
     QString path = QDir::currentPath().append("/").append( QDate::currentDate().toString("yyyyMMdd") ).append("/");
-    //QString filename = path.append("TmpPdf.pdf");
     QString filename = path.append(QTime::currentTime().toString("hhmmss")).append(".pdf");
     QPdfWriter pdfWriter(filename);
     pdfWriter.setPageSize(QPagedPaintDevice::A4);
@@ -30,11 +30,13 @@ void MainWindow::makePDF()
 
     for ( int i = 0 ; i < qImageList.length() ; i++)
     {
-        painter.drawPixmap(QRect(0,0,pdfWriter.logicalDpiX()*8.3,pdfWriter.logicalDpiY()*11.7), QPixmap::fromImage(qImageList[i]));
+        painter.drawPixmap(QRect(0,0,pdfWriter.logicalDpiX()*8.3f,pdfWriter.logicalDpiY()*11.7f), QPixmap::fromImage(qImageList[i]));
         if ( i != qImageList.length()-1 ) pdfWriter.newPage();
     }
 
     painter.end();
+
+    ui->canvas->clearAll();
 
 }
 
@@ -72,7 +74,6 @@ void MainWindow::saveImage(QImage image, const QString &fileName)
 {
 
     image.save(fileName);
-    //        undoStack->clear();
 
 }
 
@@ -81,7 +82,7 @@ void MainWindow::penColor()
     const QColor newColor = QColorDialog::getColor(ui->canvas->getColor());
     if (newColor.isValid()) {
         ui->canvas->setColor(newColor);
-        QString qss = QString("background-color: %1").arg(newColor.name());
+        QString qss = QString("background-color: %1; border: 1px solid;").arg(newColor.name());
         ui->colorShow->setStyleSheet(qss);
     }
 }
@@ -107,6 +108,7 @@ MainWindow::~MainWindow()
 // #################### Button Click #############
 void MainWindow::on_StartButton_clicked()
 {
+    CanvasWidget::isStart = true;
     StartDrawing();
     ui->StartButton->setVisible(false);
 }
@@ -114,12 +116,18 @@ void MainWindow::on_StartButton_clicked()
 
 void MainWindow::on_makePdfButton_clicked()
 {
+    if(CanvasWidget::isStart == false)
+        return;
+    else
+        CanvasWidget::isStart = false;
+
     if (CanvasWidget::isSave == false )      // When end the lecture auto save
         saveFile();
     if (qImageList.isEmpty() == true)       // no image no makePDF
         return;
     makePDF();
     ui->StartButton->setVisible(true);
+
 }
 
 void MainWindow::on_saveButton_clicked()
@@ -139,32 +147,32 @@ void MainWindow::colorSelectGroup_clicked(QAbstractButton* button)
     if(buttonName == "color_red")
     {
         selectedColor = Qt::red;
-        ui->colorShow->setStyleSheet("background-color : red;");
+        ui->colorShow->setStyleSheet("background-color : red; border: 1px solid;");
     }
     else if(buttonName == "color_blue")
     {
         selectedColor = Qt::blue;
-        ui->colorShow->setStyleSheet("background-color : blue;");
+        ui->colorShow->setStyleSheet("background-color : blue; border: 1px solid;");
     }
     else if(buttonName == "color_green")
     {
         selectedColor = QColor("#008000");
-        ui->colorShow->setStyleSheet("background-color : #008000;");
+        ui->colorShow->setStyleSheet("background-color : #008000; border: 1px solid;");
     }
     else if(buttonName == "color_black")
     {
         selectedColor = Qt::black;
-        ui->colorShow->setStyleSheet("background-color : black;");
+        ui->colorShow->setStyleSheet("background-color : black; border: 1px solid;");
     }
     else if(buttonName == "color_yellow")
     {
         selectedColor = Qt::yellow;
-        ui->colorShow->setStyleSheet("background-color : yellow;");
+        ui->colorShow->setStyleSheet("background-color : yellow; border: 1px solid;");
     }
     else if(buttonName == "color_white")
     {
         selectedColor = Qt::white;
-        ui->colorShow->setStyleSheet("background-color : white;");
+        ui->colorShow->setStyleSheet("background-color : white; border: 1px solid;");
     }
 
     ui->canvas->setColor(selectedColor);
@@ -197,6 +205,8 @@ void MainWindow::on_clearButton_clicked()
     ui->canvas->clearAll();
 }
 
+
+//################### Redo / Undo #####################
 void MainWindow::on_undoButton_clicked()
 {
     if (ui->canvas->undoStack.count() > 1  )
