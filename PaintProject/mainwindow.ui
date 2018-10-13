@@ -86,6 +86,38 @@
     <property name="styleSheet">
      <string notr="true">background-color : white;</string>
     </property>
+    <widget class="QPushButton" name="StartButton">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>-110</x>
+       <y>-60</y>
+       <width>1800</width>
+       <height>1200</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>1800</width>
+       <height>1200</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1800</width>
+       <height>1200</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color : gray;</string>
+     </property>
+     <property name="text">
+      <string>강의시작
+Start Lecture</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
@@ -93,10 +125,17 @@
       <x>10</x>
       <y>20</y>
       <width>161</width>
-      <height>95</height>
+      <height>124</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="1">
+      <widget class="QGroupBox" name="Select">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QPushButton" name="colorShow">
        <property name="sizePolicy">
@@ -116,13 +155,6 @@
        </property>
        <property name="text">
         <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QGroupBox" name="Select">
-       <property name="title">
-        <string>GroupBox</string>
        </property>
       </widget>
      </item>
@@ -277,6 +309,39 @@
        </attribute>
       </widget>
      </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QPushButton" name="customColor">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Custom
+Color</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QPushButton" name="saveButton">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>현재 이미지
+저장</string>
+       </property>
+      </widget>
+     </item>
      <item row="7" column="1">
       <widget class="QPushButton" name="makePdfButton">
        <property name="minimumSize">
@@ -317,39 +382,6 @@ Make PDF</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QPushButton" name="saveButton">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>현재 이미지
-저장</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QPushButton" name="customColor">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Custom
-Color</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -362,7 +394,7 @@ Color</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color : gray;</string>
+     <string notr="true">;</string>
     </property>
     <property name="title">
      <string>Pen</string>

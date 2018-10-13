@@ -37,6 +37,7 @@ public:
 
     QStack <QImage> undoStack;
     QStack <QImage> redoStack;
+    void addUndoStack();
 
 
 private:

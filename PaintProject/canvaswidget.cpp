@@ -12,6 +12,8 @@ CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent)
     penColor = Qt::black;
     penSize = 5;
     QPainter canvasPainter(this);
+
+
 }
 
 CanvasWidget::~CanvasWidget(){}
@@ -33,6 +35,8 @@ void CanvasWidget::clearAll()
     canvasImage = QImage(this->size(), QImage::Format_RGB32);
     canvasImage.fill(Qt::white);
     this->update();
+
+    addUndoStack();
 
 }
 
@@ -78,9 +82,7 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
 
-        undoStack.push( getImage() );
-        redoStack.clear();
-        redoStack.push( getImage() );
+        addUndoStack();
         drawingActive = false;
     }
 }
@@ -100,6 +102,15 @@ void CanvasWidget::setImage(QImage &qImage)
     canvasImage = qImage;
     QPainter canvasPainter(this);
     this->update();
+}
+
+void CanvasWidget::addUndoStack()
+{
+
+    undoStack.push( getImage() );
+    redoStack.clear();
+    redoStack.push( getImage() );
+
 }
 
 QImage CanvasWidget::getImage()

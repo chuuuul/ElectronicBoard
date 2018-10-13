@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void StartDrawing();
 
 
 private slots:
@@ -43,6 +44,8 @@ private slots:
     void on_undoButton_clicked();
 
     void on_redoButton_clicked();
+
+    void on_StartButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -13,13 +13,16 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainW
     ui->penSizeLabel->setText(QString::number(initpenSize));
     ui->penSizeSlide->setValue(initpenSize);
     ui->colorSelectGroup->connect(ui->colorSelectGroup, SIGNAL(buttonClicked(QAbstractButton*)) , this , SLOT( colorSelectGroup_clicked(QAbstractButton*)));
+
+    ui->StartButton->setVisible(true);
 }
 
 
 void MainWindow::makePDF()
 {
     QString path = QDir::currentPath().append("/").append( QDate::currentDate().toString("yyyyMMdd") ).append("/");
-    QString filename = path.append("TmpPdf.pdf");
+    //QString filename = path.append("TmpPdf.pdf");
+    QString filename = path.append(QTime::currentTime().toString("hhmmss")).append(".pdf");
     QPdfWriter pdfWriter(filename);
     pdfWriter.setPageSize(QPagedPaintDevice::A4);
 
@@ -84,6 +87,17 @@ void MainWindow::penColor()
 }
 
 
+void MainWindow::StartDrawing()
+{
+
+    ui->canvas->redoStack.clear();
+    ui->canvas->undoStack.clear();
+    qImageList.clear();
+    ui->canvas->clearAll();
+}
+
+
+
 
 
 MainWindow::~MainWindow()
@@ -91,6 +105,13 @@ MainWindow::~MainWindow()
     //delete ui;
 }
 // #################### Button Click #############
+void MainWindow::on_StartButton_clicked()
+{
+    StartDrawing();
+    ui->StartButton->setVisible(false);
+}
+
+
 void MainWindow::on_makePdfButton_clicked()
 {
     if (CanvasWidget::isSave == false )      // When end the lecture auto save
@@ -98,6 +119,7 @@ void MainWindow::on_makePdfButton_clicked()
     if (qImageList.isEmpty() == true)       // no image no makePDF
         return;
     makePDF();
+    ui->StartButton->setVisible(true);
 }
 
 void MainWindow::on_saveButton_clicked()
@@ -126,8 +148,8 @@ void MainWindow::colorSelectGroup_clicked(QAbstractButton* button)
     }
     else if(buttonName == "color_green")
     {
-        selectedColor = Qt::green;
-        ui->colorShow->setStyleSheet("background-color : green;");
+        selectedColor = QColor("#008000");
+        ui->colorShow->setStyleSheet("background-color : #008000;");
     }
     else if(buttonName == "color_black")
     {
@@ -162,6 +184,7 @@ void MainWindow::on_penSizeSlide_valueChanged(int value)
 {
     ui->penSizeLabel->setText(QString::number(value) );
     ui->canvas->setPenSize(value);
+
 }
 void MainWindow::on_penSizeSlide_sliderReleased()
 {
@@ -195,3 +218,4 @@ void MainWindow::on_redoButton_clicked()
         else
             return;
 }
+
