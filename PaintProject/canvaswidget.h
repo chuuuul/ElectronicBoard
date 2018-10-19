@@ -18,7 +18,6 @@ public:
     explicit CanvasWidget(QWidget *parent = nullptr);
     ~CanvasWidget();
     static bool isSave;
-    static bool isStart;
 
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);

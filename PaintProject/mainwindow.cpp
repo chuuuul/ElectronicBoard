@@ -8,14 +8,19 @@
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainWindow)
 {
     int initpenSize = 5;
+
+
+    /*** Release Mode ***/
     //showFullScreen();
+    //QApplication::setOverrideCursor(Qt::BlankCursor);
+    /********************/
+
     ui->setupUi(this);
     ui->penSizeLabel->setText(QString::number(initpenSize));
     ui->penSizeSlide->setValue(initpenSize);
     ui->colorShow->setStyleSheet("background-color : black; border: 1px solid;");
     ui->colorSelectGroup->connect(ui->colorSelectGroup, SIGNAL(buttonClicked(QAbstractButton*)) , this , SLOT( colorSelectGroup_clicked(QAbstractButton*)));
-
-    ui->StartButton->setVisible(true);
+    toggleSetVisible(true);
 }
 
 
@@ -64,7 +69,7 @@ void MainWindow::saveFile()
     // Add to List
     qImageList.append(image);
 
-    CanvasWidget::isSave = true;
+
 
     saveImage(image,fileName);
 }
@@ -95,10 +100,52 @@ void MainWindow::StartDrawing()
     ui->canvas->undoStack.clear();
     qImageList.clear();
     ui->canvas->clearAll();
+
+}
+
+void MainWindow::infoComboBoxMake()
+{
+    QStringList departmentList;
+    QStringList professorList;
+    QStringList courseList;
+
+    // init models
+    departmentModel = new QStringListModel();
+    professorModel = new QStringListModel();
+    courseModel = new QStringListModel();
+
+    //makeModelList(departmentModel,professorModel,courseModel);
+
+
+    // Read information from Server
+
+    // Spilt information
+
+
+    // Make StringList each
+    departmentList << "Cats" << "Dogs" << "Birds";
+    professorList << "kim" << "park";
+    courseList << "DataBase" << "NetworkProgramming";
+
+    // Set QStringList to "setStringList" method
+    departmentModel -> setStringList(departmentList);
+    professorModel -> setStringList(professorList);
+    courseModel -> setStringList(courseList);
+
+    // set ui to using "setModel" method
+    //ui->comboBox->setModel(departmentModel);
+
+
+
 }
 
 
-
+void MainWindow::toggleSetVisible(bool canVisible)
+{
+        ui->infoView->setVisible(canVisible);
+        ui->StartButton->setVisible(canVisible);
+        ui->canvasMask->setVisible(canVisible);
+}
 
 
 MainWindow::~MainWindow()
@@ -108,25 +155,25 @@ MainWindow::~MainWindow()
 // #################### Button Click #############
 void MainWindow::on_StartButton_clicked()
 {
-    CanvasWidget::isStart = true;
     StartDrawing();
-    ui->StartButton->setVisible(false);
+    toggleSetVisible(false);
 }
+
+
 
 
 void MainWindow::on_makePdfButton_clicked()
 {
-    if(CanvasWidget::isStart == false)
-        return;
-    else
-        CanvasWidget::isStart = false;
-
-    if (CanvasWidget::isSave == false )      // When end the lecture auto save
+    if (CanvasWidget::isSave == false )      // When end the lecture auto save ( Save "pdf save button" )
+    {
         saveFile();
+        CanvasWidget::isSave = true;
+    }
+
     if (qImageList.isEmpty() == true)       // no image no makePDF
         return;
     makePDF();
-    ui->StartButton->setVisible(true);
+    toggleSetVisible(true);
 
 }
 

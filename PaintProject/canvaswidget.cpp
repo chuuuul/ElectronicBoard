@@ -1,7 +1,6 @@
 #include "canvaswidget.h"
 
 bool CanvasWidget::isSave = true;
-bool CanvasWidget::isStart = false;
 
 CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent)
 {
@@ -104,6 +103,7 @@ void CanvasWidget::setImage(QImage &qImage)
     canvasImage = qImage;
     QPainter canvasPainter(this);
     this->update();
+
 }
 
 void CanvasWidget::addUndoStack()

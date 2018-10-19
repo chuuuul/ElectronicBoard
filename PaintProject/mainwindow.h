@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QList>
 #include <QPixmap>
+#include <QStringListModel>
 #include "canvaswidget.h"
 
 namespace Ui {
@@ -42,14 +43,22 @@ private slots:
 
 
     void on_undoButton_clicked();
-
     void on_redoButton_clicked();
-
     void on_StartButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
+    QStringList departmentList;
+    QStringList professorList;
+    QStringList courseList;
+
+    QStringListModel *departmentModel;
+    QStringListModel *professorModel;
+    QStringListModel *courseModel;
+
+    void toggleSetVisible(bool canVisible);
+    void infoComboBoxMake();
     void penColor();
 
 
