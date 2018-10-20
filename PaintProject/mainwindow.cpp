@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "canvaswidget.h"
-#include <QDebug>
+#include "networksubjectinfo.h"
 
+#include <QDebug>
 
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainWindow)
@@ -14,13 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainW
     //showFullScreen();
     //QApplication::setOverrideCursor(Qt::BlankCursor);
     /********************/
-
     ui->setupUi(this);
     ui->penSizeLabel->setText(QString::number(initpenSize));
     ui->penSizeSlide->setValue(initpenSize);
     ui->colorShow->setStyleSheet("background-color : black; border: 1px solid;");
     ui->colorSelectGroup->connect(ui->colorSelectGroup, SIGNAL(buttonClicked(QAbstractButton*)) , this , SLOT( colorSelectGroup_clicked(QAbstractButton*)));
     toggleSetVisible(true);
+
+
+
 }
 
 
@@ -275,4 +277,22 @@ void MainWindow::on_redoButton_clicked()
         else
             return;
 }
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    QUrl jsonUrl("http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo/");
+    netJson = new NetworkSubjectInfo(jsonUrl,this);
+    connect(netJson, SIGNAL(jsonDownload() ),SLOT(loadJson()));
+}
+
+
+void MainWindow::loadJson()
+{
+
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson( netJson->getJsonArray() );
+    qDebug()<< QString(jsonDoc.toJson(QJsonDocument::Compact)) ;
+}
+
 

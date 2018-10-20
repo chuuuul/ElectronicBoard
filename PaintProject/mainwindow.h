@@ -11,6 +11,7 @@
 #include <QPixmap>
 #include <QStringListModel>
 #include "canvaswidget.h"
+#include "networksubjectinfo.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +47,11 @@ private slots:
     void on_redoButton_clicked();
     void on_StartButton_clicked();
 
+    private slots:
+    void on_pushButton_clicked();
+
+    void loadJson();
+
 private:
     Ui::MainWindow *ui;
 
@@ -56,6 +62,8 @@ private:
     QStringListModel *departmentModel;
     QStringListModel *professorModel;
     QStringListModel *courseModel;
+
+    NetworkSubjectInfo *netJson;
 
     void toggleSetVisible(bool canVisible);
     void infoComboBoxMake();

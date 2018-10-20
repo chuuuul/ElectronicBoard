@@ -6,8 +6,6 @@ CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent)
 {
 
     canvasImage = QImage(this->size(), QImage::Format_RGB32);
-    //canvasImage.fill(Qt::green);
-    //canvasImage.fill(Qt::white);
     drawingActive = false;
     penColor = Qt::black;
     penSize = 5;

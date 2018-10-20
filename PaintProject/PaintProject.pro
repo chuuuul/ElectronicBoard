@@ -28,12 +28,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         canvaswidget.cpp \
-    networkhttp.cpp
+    networksubjectinfo.cpp
 
 HEADERS += \
         mainwindow.h \
         canvaswidget.h \
-    networkhttp.h
+    networksubjectinfo.h
 
 FORMS += \
     mainwindow.ui
