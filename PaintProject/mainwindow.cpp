@@ -281,7 +281,11 @@ void MainWindow::on_redoButton_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QUrl jsonUrl("http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo/");
+
+    QUrl jsonUrl("http://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/010Y002/MM/201101/201106/AAAA11");  // ok
+    //QUrl jsonUrl("https://api.androidhive.info/contacts/");       // ssl error
+    //QUrl jsonUrl("http://comp.fnguide.com/SVO2/common/sp_read_json.asp?cmdText=menu_6_2&IN_U_CD=I.001&IN_MARKET_GB=&IN_REPORT_GB=A&IN_SORT=9");   // too much data
+    //QUrl jsonUrl("http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo/"); // just 1 line
     netJson = new NetworkSubjectInfo(jsonUrl,this);
     connect(netJson, SIGNAL(jsonDownload() ),SLOT(loadJson()));
 }
