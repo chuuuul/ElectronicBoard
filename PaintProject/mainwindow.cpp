@@ -1,19 +1,68 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "networksubjectinfo.h"
+﻿#include "mainwindow.h"
+#include <QTextCodec>
+#include <QTranslator>
 
-#include <QDebug>
 
+#define kor(a) QString::fromUtf8(a)
+#define comboBoxInitText QString::fromUtf8("선택해주세요")
+#define jsonServerURL "http://7ed7cf0d.ngrok.io/smartBoardStart"
+#define httpMakeDirURL "http://7ed7cf0d.ngrok.io/makeDir/"
+#define httpEndLectureURL "http://7ed7cf0d.ngrok.io/smartBoardEnd/"
+#define ftpServer "ftp://chul.duckdns.org/ftp/lecture/"
+
+//#define httpMakeDirURL "http://c2266780.ngrok.io/smartBoardStart/makeDir/"  // 기존서버
+//#define jsonServerURL "http://c2266780.ngrok.io/smartBoardStart"
+
+
+
+
+//##############################################
+//############# Uploading ######################
+//##############################################
+
+void MainWindow::startUploadPDF(QString m_folderName, QString m_fileName)
+{
+    ftp_file = new QFile(m_fileName);
+
+    QFileInfo fileInfo(*ftp_file);
+
+    QString path = m_folderName.append("/").append( fileInfo.fileName() );
+
+    QUrl url(QString(ftpServer) + path );
+
+
+    url.setUserName("ftpftp");
+    url.setPassword("ftpftp");
+    url.setPort(21);
+
+
+    if (ftp_file->open(QIODevice::ReadOnly))
+    {
+        uploadFrameVisible(true);
+
+        QNetworkReply *reply = ftp_manager->put(QNetworkRequest(url), ftp_file);
+        // And connect to the progress upload signal
+        connect(reply, &QNetworkReply::uploadProgress, this, &MainWindow::uploadProgress);
+    }
+
+}
 
 MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainWindow)
 {
     int initpenSize = 5;
 
-
     /*** Release Mode ***/
     //showFullScreen();
     //QApplication::setOverrideCursor(Qt::BlankCursor);
     /********************/
+
+    // Setting Download
+    QUrl jsonUrl(jsonServerURL);
+    netJson = new NetworkCourseInfo(jsonUrl,this);
+    connect(netJson, SIGNAL(jsonDownload() ),SLOT(loadJson()));
+
+
+    // Setting Painter and Widget
     ui->setupUi(this);
     ui->penSizeLabel->setText(QString::number(initpenSize));
     ui->penSizeSlide->setValue(initpenSize);
@@ -21,16 +70,213 @@ MainWindow::MainWindow(QWidget *parent) :QMainWindow(parent),   ui(new Ui::MainW
     ui->colorSelectGroup->connect(ui->colorSelectGroup, SIGNAL(buttonClicked(QAbstractButton*)) , this , SLOT( colorSelectGroup_clicked(QAbstractButton*)));
     toggleSetVisible(true);
 
+    // Setting UploadPDF
+    uploadFrameVisible(false);
 
+    // init Course , info list, models
+    departmentModel = new QStringListModel();
+    professorModel = new QStringListModel();
+    courseModel = new QStringListModel();
+
+
+    ftp_manager = new QNetworkAccessManager(this);
+    connect(ftp_manager, &QNetworkAccessManager::finished, this, &MainWindow::uploadFinished);
+}
+
+void MainWindow::httpConnect(QString urlString)
+{
+    http_manager = new QNetworkAccessManager(this);
+
+    QUrl requestURL = urlString.append(departString + "&" + profString + "&" + courseString);
+    connect(http_manager, SIGNAL(finished(QNetworkReply*)) , this , SLOT(httpRequest(QNetworkReply*) ));
+    QNetworkRequest networkRequest ( requestURL );
+    http_manager->get( networkRequest );
+}
+
+void MainWindow::httpRequest(QNetworkReply *p_reply)
+{
+    p_reply->deleteLater();
+}
+
+/*
+// To test
+QJsonDocument MainWindow::readJson()
+{
+    QString settings;
+    QFile file;
+    file.setFileName("D:/tmp.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    settings = file.readAll();
+    file.close();
+
+    QJsonDocument sd = QJsonDocument::fromJson(settings.toUtf8());
+    //qDebug()<< QString(sd.toJson(QJsonDocument::Compact)) ;        //display Json text
+    return sd;
+}
+*/
+
+void MainWindow::loadJson()
+{
+    allComboBoxInit();
+    jsonDoc = QJsonDocument::fromJson( netJson->getJsonArray() );
+    //qDebug()<< QString(jsonDoc.toJson(QJsonDocument::Compact)) ;        //display Json text
+    makeDepartList();
+    makeDepartComboBox();
 
 }
 
 
+
+//##############################################
+//############# Uploading ######################
+//##############################################
+
+
+void MainWindow::uploadFinished(QNetworkReply *reply)
+{
+    if (!reply->error())
+   {
+       ftp_file->close();
+       ftp_file->deleteLater();  // delete object of file
+       reply->deleteLater();   // delete object of reply
+    }
+}
+
+void MainWindow::uploadProgress(qint64 bytesSent, qint64 bytesTotal)
+{
+    ui->uploadProgressBar->setValue(100 * bytesSent/bytesTotal);
+
+}
+
+void MainWindow::on_uploadProgressBar_valueChanged(int value)
+{
+    if ( value >= 100 )
+    {
+        ui->uploadText->setText("Upload Complete");
+    }
+    else
+    {
+        ui->uploadText->setText("Uploading...");
+    }
+}
+
+
+
+void MainWindow::uploadFrameVisible(bool visible)
+{
+    ui->uploadProgressBar->setVisible(visible);
+    ui->uploadText->setVisible(visible);
+
+    if (visible == true)
+    {
+        ui->uploadProgressBar->setValue(0);
+        ui->uploadText->setText("Uploading...");
+    }
+}
+
+
+
+
+MainWindow::~MainWindow()
+{
+    //delete ui;
+}
+
+//######################### Combo Box ####################################
+
+void MainWindow::allComboBoxInit()
+{
+    departmentList.clear();
+    professorList.clear();
+    courseList.clear();
+
+    departmentList.append(comboBoxInitText);
+    professorList.append(comboBoxInitText);
+    courseList.append(comboBoxInitText);
+
+    makeCourseComboBox();
+    makeDepartComboBox();
+    makeProfComboBox();
+
+
+    ui->departmentComboBox->setCurrentIndex(0);
+    ui->professorComboBox->setCurrentIndex(0);
+    ui->courseComboBox->setCurrentIndex(0);
+
+}
+
+void MainWindow::toggleSetVisible(bool canVisible)
+{
+        ui->infoView->setVisible(canVisible);
+        ui->StartButton->setVisible(canVisible);
+        ui->canvasMask->setVisible(canVisible);
+}
+
+
+void MainWindow::makeDepartList()
+{
+    foreach ( QJsonValue var, jsonDoc.array() )
+    {
+        departmentList.append( var.toObject().value("major").toString() );
+    }
+}
+
+void MainWindow::makeProfList()
+{
+    foreach ( QJsonValue var, jsonDoc.array() )
+    {
+        if (var.toObject().value("major") == ui->departmentComboBox->currentText() )
+        {
+            professorList.append(var.toObject().value("profName").toString());
+            //qDebug()<< var.toObject().value("profName").toString() ;
+        }
+    }
+}
+
+void MainWindow::makeCourseList()
+{
+    foreach ( QJsonValue var, jsonDoc.array() )
+    {
+        if (var.toObject().value("major") == ui->departmentComboBox->currentText()
+                &&var.toObject().value("profName") == ui->professorComboBox->currentText() )
+        {
+            courseList.append(var.toObject().value("lectureName").toString());
+        }
+    }
+}
+
+void MainWindow::makeDepartComboBox()
+{
+    departmentModel -> setStringList(departmentList);
+    ui->departmentComboBox->setModel(departmentModel);
+    ui->departmentComboBox->setCurrentIndex(0);
+}
+
+void MainWindow::makeProfComboBox()
+{
+    professorModel -> setStringList(professorList);
+    ui->professorComboBox->setModel(professorModel);
+    ui->professorComboBox->setCurrentIndex(0);
+}
+
+void MainWindow::makeCourseComboBox()
+{
+    courseModel->setStringList(courseList);
+    ui->courseComboBox->setModel(courseModel);
+    ui->courseComboBox->setCurrentIndex(0);
+}
+
+
+// ############################   PDF / SaveFile   ####################################
 void MainWindow::makePDF()
 {
-    QString path = QDir::currentPath().append("/").append( QDate::currentDate().toString("yyyyMMdd") ).append("/");
-    QString filename = path.append(QTime::currentTime().toString("hhmmss")).append(".pdf");
+    QString path = QDir::currentPath().append("/").append( courseInfoString ).append("/");
+    QString filename = path.append(courseInfoString).append(QDate::currentDate().toString("_MM월dd일")).append(QTime::currentTime().toString("hh시mmss")).append(".pdf");
+
+
+
     QPdfWriter pdfWriter(filename);
+
     pdfWriter.setPageSize(QPagedPaintDevice::A4);
 
     QPainter painter(&pdfWriter);
@@ -43,8 +289,10 @@ void MainWindow::makePDF()
 
     painter.end();
 
-    ui->canvas->clearAll();
+    // Upload FTP folder
+    startUploadPDF(courseInfoString,filename);
 
+    ui->canvas->clearAll();
 }
 
 
@@ -52,7 +300,7 @@ void MainWindow::saveFile()
 {
 
     // to save Path
-    QString path = QDir::currentPath().append("/").append( QDate::currentDate().toString("yyyyMMdd") ).append("/");
+    QString path = QDir::currentPath().append("/").append( courseInfoString ).append("/");
     QDir dir(path);
 
     if(!dir.exists())
@@ -84,6 +332,8 @@ void MainWindow::saveImage(QImage image, const QString &fileName)
 
 }
 
+
+//############################# Drawing ##################################
 void MainWindow::penColor()
 {
     const QColor newColor = QColorDialog::getColor(ui->canvas->getColor());
@@ -97,68 +347,50 @@ void MainWindow::penColor()
 
 void MainWindow::StartDrawing()
 {
-
     ui->canvas->redoStack.clear();
     ui->canvas->undoStack.clear();
     qImageList.clear();
     ui->canvas->clearAll();
-
-}
-
-void MainWindow::infoComboBoxMake()
-{
-    QStringList departmentList;
-    QStringList professorList;
-    QStringList courseList;
-
-    // init models
-    departmentModel = new QStringListModel();
-    professorModel = new QStringListModel();
-    courseModel = new QStringListModel();
-
-    //makeModelList(departmentModel,professorModel,courseModel);
-
-
-    // Read information from Server
-
-    // Spilt information
-
-
-    // Make StringList each
-    departmentList << "Cats" << "Dogs" << "Birds";
-    professorList << "kim" << "park";
-    courseList << "DataBase" << "NetworkProgramming";
-
-    // Set QStringList to "setStringList" method
-    departmentModel -> setStringList(departmentList);
-    professorModel -> setStringList(professorList);
-    courseModel -> setStringList(courseList);
-
-    // set ui to using "setModel" method
-    //ui->comboBox->setModel(departmentModel);
-
-
-
 }
 
 
-void MainWindow::toggleSetVisible(bool canVisible)
-{
-        ui->infoView->setVisible(canVisible);
-        ui->StartButton->setVisible(canVisible);
-        ui->canvasMask->setVisible(canVisible);
-}
-
-
-MainWindow::~MainWindow()
-{
-    //delete ui;
-}
 // #################### Button Click #############
 void MainWindow::on_StartButton_clicked()
 {
-    StartDrawing();
-    toggleSetVisible(false);
+    if ( ui->courseComboBox->currentText() != comboBoxInitText && ui->courseComboBox->currentText() != nullptr )
+    {
+
+
+        StartDrawing();
+
+        uploadFrameVisible(false);
+        toggleSetVisible(false);
+
+        departString = ui->departmentComboBox->currentText();
+        profString = ui->professorComboBox->currentText();
+        courseString = ui->courseComboBox->currentText();
+
+
+        courseInfoString = QString("%1_%2_%3").arg(departString).arg(profString).arg(courseString);
+
+        //comboBox Clear
+        professorList.clear();
+        courseList.clear();
+
+        professorList.append(comboBoxInitText);
+        courseList.append(comboBoxInitText);
+
+        makeProfComboBox();
+        makeCourseComboBox();
+
+
+        ui->departmentComboBox->setCurrentIndex(0);
+        ui->professorComboBox->setCurrentIndex(0);
+        ui->courseComboBox->setCurrentIndex(0);
+
+        httpConnect(httpMakeDirURL);
+    }
+
 }
 
 
@@ -172,10 +404,13 @@ void MainWindow::on_makePdfButton_clicked()
         CanvasWidget::isSave = true;
     }
 
-    if (qImageList.isEmpty() == true)       // no image no makePDF
+    if (qImageList.isEmpty() == true)       // If (no image)  no makePDF
         return;
     makePDF();
+
+    httpConnect(httpEndLectureURL);     //####
     toggleSetVisible(true);
+
 
 }
 
@@ -255,7 +490,7 @@ void MainWindow::on_clearButton_clicked()
 }
 
 
-//################### Redo / Undo #####################
+//################### Undo #####################
 void MainWindow::on_undoButton_clicked()
 {
     if (ui->canvas->undoStack.count() > 1  )
@@ -266,7 +501,7 @@ void MainWindow::on_undoButton_clicked()
     else
         return;
 }
-
+//################### Redo #####################
 void MainWindow::on_redoButton_clicked()
 {
         if (ui->canvas->redoStack.count() > 1  )
@@ -279,24 +514,33 @@ void MainWindow::on_redoButton_clicked()
 }
 
 
-void MainWindow::on_pushButton_clicked()
+//################### ComboBox #####################
+void MainWindow::on_departmentComboBox_currentTextChanged(const QString &arg1)
 {
 
-    QUrl jsonUrl("http://ecos.bok.or.kr/api/StatisticSearch/sample/json/kr/1/10/010Y002/MM/201101/201106/AAAA11");  // ok
-    //QUrl jsonUrl("https://api.androidhive.info/contacts/");       // ssl error
-    //QUrl jsonUrl("http://comp.fnguide.com/SVO2/common/sp_read_json.asp?cmdText=menu_6_2&IN_U_CD=I.001&IN_MARKET_GB=&IN_REPORT_GB=A&IN_SORT=9");   // too much data
-    //QUrl jsonUrl("http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=demo/"); // just 1 line
-    netJson = new NetworkSubjectInfo(jsonUrl,this);
-    connect(netJson, SIGNAL(jsonDownload() ),SLOT(loadJson()));
+    professorList.clear();
+    courseList.clear();
+
+    professorList.append(comboBoxInitText);
+    courseList.append(comboBoxInitText);
+
+    if (arg1 != comboBoxInitText)
+        makeProfList();
+
+    makeProfComboBox();
+    makeCourseComboBox();
+
 }
 
-
-void MainWindow::loadJson()
+void MainWindow::on_professorComboBox_currentTextChanged(const QString &arg1)
 {
+    courseList.clear();
+    courseList.append(comboBoxInitText);
 
+    if (arg1 != comboBoxInitText)
+        makeCourseList();
 
-    QJsonDocument jsonDoc = QJsonDocument::fromJson( netJson->getJsonArray() );
-    qDebug()<< QString(jsonDoc.toJson(QJsonDocument::Compact)) ;
+    makeCourseComboBox();
+
 }
-
 

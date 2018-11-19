@@ -5,7 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += network
+QT += network
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,12 +29,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         canvaswidget.cpp \
-    networksubjectinfo.cpp
+        networkCourseInfo.cpp
 
 HEADERS += \
         mainwindow.h \
         canvaswidget.h \
-    networksubjectinfo.h
+        networkCourseInfo.h
 
 FORMS += \
     mainwindow.ui

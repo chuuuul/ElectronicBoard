@@ -89,10 +89,10 @@
     <widget class="QPushButton" name="StartButton">
      <property name="geometry">
       <rect>
-       <x>780</x>
-       <y>440</y>
-       <width>221</width>
-       <height>81</height>
+       <x>450</x>
+       <y>370</y>
+       <width>720</width>
+       <height>151</height>
       </rect>
      </property>
      <property name="text">
@@ -103,7 +103,7 @@ Start Lecture</string>
     <widget class="QLabel" name="canvasMask">
      <property name="geometry">
       <rect>
-       <x>230</x>
+       <x>0</x>
        <y>-130</y>
        <width>1800</width>
        <height>1200</height>
@@ -113,15 +113,15 @@ Start Lecture</string>
       <string notr="true">background-color:gray</string>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string/>
      </property>
     </widget>
     <widget class="QWidget" name="infoView" native="true">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>450</x>
        <y>230</y>
-       <width>711</width>
+       <width>720</width>
        <height>111</height>
       </rect>
      </property>
@@ -133,7 +133,7 @@ Start Lecture</string>
           <number>10</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label_9">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -144,7 +144,7 @@ Start Lecture</string>
             <string notr="true">border: 2px solid;</string>
            </property>
            <property name="text">
-            <string>강의명</string>
+            <string>학과명</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -152,7 +152,7 @@ Start Lecture</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="courseComboBox_3">
+          <widget class="QComboBox" name="departmentComboBox">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -161,6 +161,9 @@ Start Lecture</string>
            </property>
            <property name="styleSheet">
             <string notr="true">border: 1px solid;</string>
+           </property>
+           <property name="currentText">
+            <string/>
            </property>
           </widget>
          </item>
@@ -190,7 +193,7 @@ Start Lecture</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="professorComboBox_3">
+          <widget class="QComboBox" name="professorComboBox">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -209,7 +212,7 @@ Start Lecture</string>
        <widget class="QWidget" name="widget" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_9">
          <item>
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="label_7">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -220,7 +223,7 @@ Start Lecture</string>
             <string notr="true">border: 2px solid;</string>
            </property>
            <property name="text">
-            <string>학과명</string>
+            <string>강의명</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -228,7 +231,7 @@ Start Lecture</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="departmentComboBox_3">
+          <widget class="QComboBox" name="courseComboBox">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -245,23 +248,9 @@ Start Lecture</string>
       </item>
      </layout>
     </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>580</y>
-       <width>191</width>
-       <height>111</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
     <zorder>canvasMask</zorder>
     <zorder>StartButton</zorder>
     <zorder>infoView</zorder>
-    <zorder>pushButton</zorder>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
@@ -632,6 +621,35 @@ Make PDF</string>
        </property>
        <property name="flat">
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>900</y>
+      <width>161</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="uploadLayout">
+     <item>
+      <widget class="QLabel" name="uploadText">
+       <property name="text">
+        <string>Uploading...</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="uploadProgressBar">
+       <property name="value">
+        <number>0</number>
        </property>
       </widget>
      </item>
