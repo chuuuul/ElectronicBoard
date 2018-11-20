@@ -258,7 +258,7 @@ Start Lecture</string>
       <x>10</x>
       <y>151</y>
       <width>158</width>
-      <height>581</height>
+      <height>587</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -404,37 +404,6 @@ Color</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QPushButton" name="saveButton">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>현재 이미지
-저장</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QPushButton" name="makePdfButton">
-       <property name="minimumSize">
-        <size>
-         <width>75</width>
-         <height>75</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>수업 종료 
-Make PDF</string>
-       </property>
-      </widget>
-     </item>
      <item row="8" column="0">
       <widget class="QPushButton" name="undoButton">
        <property name="minimumSize">
@@ -464,6 +433,20 @@ Make PDF</string>
        </property>
        <property name="text">
         <string>redo</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0" colspan="2">
+      <widget class="QPushButton" name="makePdfButton">
+       <property name="minimumSize">
+        <size>
+         <width>75</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>수업 종료 
+Make PDF</string>
        </property>
       </widget>
      </item>

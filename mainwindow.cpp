@@ -271,13 +271,14 @@ void MainWindow::makeCourseComboBox()
 void MainWindow::makePDF()
 {
     QString path = QDir::currentPath().append("/").append( courseInfoString ).append("/");
-    QString filename = path.append(courseInfoString).append(QDate::currentDate().toString("_MM월dd일")).append(QTime::currentTime().toString("hh시mmss")).append(".pdf");
+    //QString filename = path.append(courseInfoString).append(QDate::currentDate().toString("_MM월dd일")).append(QTime::currentTime().toString("hh시mmss")).append(".pdf");
+    QString filename = path.append(courseInfoString).append(QDate::currentDate().toString("_MMdd")).append(QTime::currentTime().toString("hhmm")).append(".pdf");
 
 
 
     QPdfWriter pdfWriter(filename);
 
-    pdfWriter.setPageSize(QPagedPaintDevice::A4);
+    //pdfWriter.setPageSize(QPagedPaintDevice::A4);
 
     QPainter painter(&pdfWriter);
 
