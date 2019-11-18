@@ -11,10 +11,10 @@
 ### 아이디어
 교육기관에서 관리하는 서비스가 있으면 좋겠다.</br>
 수업 시작할때 학과, 교수명, 확과명을 선택하여 서버에 올리고 파일을 관리한다.</br>
-청자는 모바일 어플리케이션으로 파일을 다운로드하게 된다.
+청자는 모바일 어플리케이션으로 파일을 다운로드하게 된다.</br>
 
 ### 기능
-
+펜두께, 펜색깔 지정, undo, redo, 과목 리스트 가져오기, 이미지생성, 이미지 to pdf, 파일전송
 
 ### 컨셉
 ![concept](https://github.com/chuuuul/ElectronicBoard/blob/master/gitData/concept.png)
