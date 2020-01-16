@@ -19,6 +19,9 @@
 ### 컨셉
 ![concept](https://github.com/chuuuul/ElectronicBoard/blob/master/gitData/concept.png)
 
+### 실행방법
+Qt5로 프로젝트를 빌드한다.
+
 ### 실행화면
 ##### 강의시작
 ![main](https://github.com/chuuuul/ElectronicBoard/blob/master/gitData/main.png)
