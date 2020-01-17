@@ -19,6 +19,8 @@
 ### 컨셉
 ![concept](https://github.com/chuuuul/ElectronicBoard/blob/master/gitData/concept.png)
 
+### 흐름도
+![flowChart](https://github.com/chuuuul/ElectronicBoard/blob/master/gitData/structure.png)
 ### 실행방법
 Qt5로 프로젝트를 빌드한다.
 
